@@ -1,0 +1,40 @@
+{
+   "manifest_version": 3,
+   "name": "幻星字幕下载",
+   "version": "1.0.0",
+   "description": "一键提取当前B站视频字幕并直接复制到剪贴板，轻量极速。",
+   "action": {
+      "default_icon": {
+         "16": "images/logo/logo-16.png",
+         "32": "images/logo/logo-32.png",
+         "48": "images/logo/logo-48.png",
+         "128": "images/logo/logo-128.png"
+      }
+   },
+   "icons": {
+      "16": "images/logo/logo-16.png",
+      "32": "images/logo/logo-32.png",
+      "48": "images/logo/logo-48.png",
+      "128": "images/logo/logo-128.png"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "permissions": [
+      "sidePanel",
+      "activeTab",
+      "tabs",
+      "storage",
+      "scripting",
+      "cookies"
+   ],
+   "host_permissions": [
+      "https://api.bilibili.com/*",
+      "https://www.bilibili.com/*",
+      "https://*.hdslb.com/*",
+      "https://aisubtitle.hdslb.com/*"
+   ],
+   "side_panel": {
+      "default_path": "sidepanel.html"
+   }
+}

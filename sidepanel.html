@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>幻星字幕下载</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- 顶部标题与品牌 -->
+    <header class="app-header">
+      <div class="app-brand">
+        <img class="app-logo" src="images/logo/logo-48.png" alt="幻星字幕下载" />
+        <div class="app-titles">
+          <h1 class="app-title">幻星字幕下载</h1>
+          <p class="app-subtitle">B站视频字幕提取工具</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 核心卡片：一键获取当前视频字幕并复制 -->
+    <section class="main-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <svg class="section-title-icon" viewBox="0 0 24 24">
+            <path d="M7 2v11h3v9l7-12h-4l3-8z" />
+          </svg>
+          快速提取字幕
+        </h2>
+        <span class="card-badge">当前视频</span>
+      </div>
+
+      <div class="action-container">
+        <button
+          id="quickExtractAndCopyBtn"
+          class="quick-extract-btn"
+          title="一键提取当前B站视频字幕并直接复制到剪贴板"
+        >
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+            />
+          </svg>
+          <span class="btn-text">获取当前字幕并复制</span>
+        </button>
+      </div>
+
+      <!-- 快速提取成功后的结果展示反馈 -->
+      <div id="quickExtractResult" class="quick-extract-result" style="display: none;">
+        <div class="quick-result-header">
+          <span class="quick-result-badge">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
+            已提取并复制
+          </span>
+          <div class="quick-result-header-right">
+            <span id="quickExtractLength" class="quick-result-meta"></span>
+            <button id="quickExtractCloseBtn" class="quick-result-close-btn" type="button" title="关闭结果">
+              <svg viewBox="0 0 24 24">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="quick-result-content">
+          <svg class="quick-result-icon" viewBox="0 0 24 24">
+            <path
+              d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"
+            />
+          </svg>
+          <span id="quickExtractTitle" class="quick-result-title"></span>
+        </div>
+        <!-- 字幕多行内容预览区 -->
+        <div id="quickExtractPreview" class="quick-result-preview" style="display: none;"></div>
+
+        <!-- 底部收起/展开功能按钮 -->
+        <div class="quick-collapse-wrapper" id="quickExtractCollapseWrapper">
+          <button id="quickExtractCollapseBtn" class="quick-collapse-btn" type="button" title="收起或展开字幕预览">
+            <span id="quickExtractCollapseText">收起</span>
+            <svg id="quickExtractCollapseIcon" class="quick-collapse-icon" viewBox="0 0 24 24">
+              <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 悬浮通知 (Toast) -->
+    <div id="errorToast" class="error-toast">
+      <svg class="error-toast-icon" viewBox="0 0 24 24">
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+        />
+      </svg>
+      <div class="error-toast-message">提示</div>
+      <button class="error-toast-close" type="button">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div id="successToast" class="success-toast">
+      <svg class="success-toast-icon" viewBox="0 0 24 24">
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+        />
+      </svg>
+      <div class="success-toast-message">成功</div>
+      <button class="success-toast-close" type="button">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
